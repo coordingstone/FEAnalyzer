@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joelsvensson
- * Date: 2018-10-19
- * Time: 20:30
- */
 
 namespace Console\utility;
 

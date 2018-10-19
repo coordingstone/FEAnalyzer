@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joelsvensson
- * Date: 2018-10-19
- * Time: 20:50
- */
 
 namespace Console\views;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +21,13 @@ class OutputView extends BaseView
      */
     public function writeRateModelToTable(OutputInterface $output, $models) {
 
+        $negativeRateOutputStyle = $this->getNegativeRateVariationFormatterStyle();
+        $positiveRateOutputStyle = $this->getPositiveRateVariationFormatterStyle();
+
+        $output->getFormatter()->setStyle('negative', $negativeRateOutputStyle);
+        $output->getFormatter()->setStyle('positive', $positiveRateOutputStyle);
+
+
         if (!is_array($models) || count($models) < 0) {
             $this->writeError($output, 'Could not fetch rates');
         }
@@ -35,12 +36,21 @@ class OutputView extends BaseView
 
         $rows = [];
         foreach($models as $rateModel) {
-            $symbol = $rateModel->symbol;
-            $rate = $rateModel->rate;
-            $oldRate = $rateModel->oldRate;
-            $rateVariation = $rateModel->rateVariation;
 
-            $rows[] = [$rateModel->getSymbol(), $rateModel->getRate(), $rateModel->getOldRate(), $rateModel->getRateVariation()];
+            $symbol = $rateModel->getSymbol();
+            $rate = $rateModel->getRate();
+            $oldRate = $rateModel->getOldRate();
+            $rateVariation = $rateModel->getRateVariation();
+
+            if ($rateVariation < 0) {
+                $rows[] = [$symbol, $rate, $oldRate, '<negative>'. $rateVariation . '</>'];
+            } else {
+                $rows[] = [$symbol, $rate, $oldRate, '<positive>'. $rateVariation . '</>'];
+            }
+
+
+
+
 
         }
 

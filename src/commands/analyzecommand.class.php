@@ -14,6 +14,7 @@ class AnalyzeCommand extends BaseCommand
     private $outputInterface;
 
     /**
+     * View that will handle all output to console
      * @var OutputView
      */
     private $outputView;
@@ -36,13 +37,13 @@ class AnalyzeCommand extends BaseCommand
         $this->outputInterface = $output;
         $this->outputView = new OutputView($output);
         $argument = $input->getArgument('startDateString');
-        $this->isValidArgument($argument ) == true ? $this->getRatesVariationModels($argument) : $this->outputView->writeError($output, 'Please fill in a valid start date,' . ' Format: ' .  'YYYY-MM-DD');
+        $this->isValidArgument($argument ) == true ? $this->initARController($argument) : $this->outputView->writeError($output, 'Please fill in a valid start date,' . ' Format: ' .  'YYYY-MM-DD');
     }
 
     /**
      * @param string $argument
      */
-    private function getRatesVariationModels($argument) {
+    private function initARController($argument) {
         $arController = new AnalyzeRatesController();
         try {
             $rates = $arController->getRatesVariationModels($argument);
