@@ -9,7 +9,7 @@ class ValidateInput
      * @param string $startDateString
      * @return bool
      */
-    public static function isValidstartDateString($startDateString)
+    public static function isValidStartDateString($startDateString)
     {
         if (empty($startDateString) || $startDateString === null) {
             return true;

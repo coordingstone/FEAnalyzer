@@ -16,6 +16,7 @@ class OutputView extends BaseView
     public function __construct($output)
     {
         $this->output = $output;
+        $this->startProgressBar($this->output);
     }
 
     /**
@@ -23,6 +24,8 @@ class OutputView extends BaseView
      * @param RatesModel[] $models
      */
     public function writeRateModelsToTable(OutputInterface $output, $models) {
+
+        $this->stopProgressBar();
 
         $negativeRateOutputStyle = $this->getNegativeRateVariationFormatterStyle();
         $positiveRateOutputStyle = $this->getPositiveRateVariationFormatterStyle();

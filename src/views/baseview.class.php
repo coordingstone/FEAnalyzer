@@ -3,23 +3,21 @@
 namespace Console\views;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\ProgressBar;
+
 
 
 class BaseView
 {
-    /**
-     * @param OutputInterface $output
-     * @param string $message
-     */
-    public function write(OutputInterface $output, $message) {
-        $output->writeln($message);
-    }
+
+    private $progressBar;
 
     /**
      * @param OutputInterface $output
      * @param string $message
      */
     public function writeError(OutputInterface $output, $message) {
+        $this->stopProgressBar($output);
         $outputStyle = $this->getErrorFormatterStyle();
         $output->getFormatter()->setStyle('error', $outputStyle);
         $output->writeln('<error>'. $message . '</>');
@@ -47,5 +45,16 @@ class BaseView
     protected function getPositiveRateVariationFormatterStyle(){
         $outputStyle = new OutputFormatterStyle('green', 'default', array('bold'));
         return $outputStyle;
+    }
+
+    protected function startProgressBar(OutputInterface $output){
+        $this->progressBar = new ProgressBar($output);
+        $this->progressBar->start();
+    }
+
+    protected function stopProgressBar(){
+        if ($this->progressBar){
+            $this->progressBar->finish();
+        }
     }
 }

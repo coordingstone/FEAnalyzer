@@ -17,7 +17,7 @@ class BaseCommand extends SymfonyCommand
      */
     protected function isValidArgument($argument)
     {
-        return ValidateInput::isValidstartDateString($argument);
+        return ValidateInput::isValidStartDateString($argument);
 
     }
 }

@@ -27,6 +27,10 @@ class AnalyzeRatesController
         return $ratesModelsArray;
     }
 
+    /**
+     * @param RatesModel[] $ratesModelsArray
+     * @return mixed
+     */
     private function sortArrayAfterRateVariation($ratesModelsArray) {
         usort($ratesModelsArray,function($first,$second){
             return $first->rateVariation < $second->rateVariation;

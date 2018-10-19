@@ -21,9 +21,10 @@ class RatesModel
     public $oldRate;
 
     /**
+     * Init to 100 because we want to avoid division by 0
      * @var float
      */
-    public $rateVariation;
+    public $rateVariation = 100;
 
     /**
      * @return string
