@@ -46,8 +46,8 @@ class AnalyzeCommand extends BaseCommand
     private function initARController($argument) {
         $arController = new AnalyzeRatesController();
         try {
-            $rates = $arController->getRatesVariationModels($argument);
-            $this->outputView->writeRateModelToTable($this->outputInterface, $rates);
+            $rates = $arController->getRatesModels($argument);
+            $this->outputView->writeRateModelsToTable($this->outputInterface, $rates);
         } catch (\Httpful\Exception\ConnectionErrorException $exception) {
             $this->outputView->writeError($this->outputInterface, 'Failed to get rates with error code: ' . $exception->getMessage());
         }

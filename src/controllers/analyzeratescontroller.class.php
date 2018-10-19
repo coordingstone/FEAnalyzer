@@ -13,17 +13,33 @@ class AnalyzeRatesController
      * @return RatesModel[]
      * @throws \Httpful\Exception\ConnectionErrorException
      */
-    public function getRatesVariationModels($argument)
+    public function getRatesModels($argument)
     {
         $restClient = new RestClient();
         $ratesArray = $this->getRatesFromArgument($restClient, $argument);
         $oldRatesArray = $this->getRatesFrom30DaysAgo($restClient, $argument);
-
-        $ratesModelsArray = $this->createRatesModelArray($ratesArray);
-
-
         $oldRatesArray = explode(',' , json_encode($oldRatesArray));
 
+        $ratesModelsArray = $this->createRatesModelArray($ratesArray);
+        $ratesModelsArray = $this->joinOldRatesArrayAndPassToRatedModelArray($ratesModelsArray, $oldRatesArray);
+        $ratesModelsArray = $this->sortArrayAfterRateVariation($ratesModelsArray);
+
+        return $ratesModelsArray;
+    }
+
+    private function sortArrayAfterRateVariation($ratesModelsArray) {
+        usort($ratesModelsArray,function($first,$second){
+            return $first->rateVariation < $second->rateVariation;
+        });
+        return $ratesModelsArray;
+    }
+
+    /**
+     * @param RatesModel[] $ratesModelsArray
+     * @param $oldRatesArray
+     * @return RatesModel[]
+     */
+    private function joinOldRatesArrayAndPassToRatedModelArray($ratesModelsArray, $oldRatesArray){
         foreach($ratesModelsArray as $rateModel) {
             foreach($oldRatesArray as $key => $item) {
 
@@ -37,11 +53,6 @@ class AnalyzeRatesController
                 }
             }
         }
-
-        usort($ratesModelsArray,function($first,$second){
-            return $first->rateVariation < $second->rateVariation;
-        });
-
         return $ratesModelsArray;
     }
 

@@ -8,6 +8,9 @@ use Symfony\Component\Console\Helper\Table;
 
 class OutputView extends BaseView
 {
+    /**
+     * @var OutputInterface
+     */
     private $output;
 
     public function __construct($output)
@@ -19,7 +22,7 @@ class OutputView extends BaseView
      * @param OutputInterface $output
      * @param RatesModel[] $models
      */
-    public function writeRateModelToTable(OutputInterface $output, $models) {
+    public function writeRateModelsToTable(OutputInterface $output, $models) {
 
         $negativeRateOutputStyle = $this->getNegativeRateVariationFormatterStyle();
         $positiveRateOutputStyle = $this->getPositiveRateVariationFormatterStyle();
